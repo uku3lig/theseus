@@ -1,7 +1,5 @@
 [workspace]
 
 members = [
-    "theseus",
-    "theseus_cli",
-    "theseus_gui/src-tauri"
+    "theseus"
 ]
