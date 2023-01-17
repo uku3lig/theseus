@@ -57,6 +57,7 @@ pub enum ModLoader {
     Vanilla,
     Forge,
     Fabric,
+    Quilt,
 }
 
 impl Default for ModLoader {
@@ -71,6 +72,7 @@ impl std::fmt::Display for ModLoader {
             &Self::Vanilla => "Vanilla",
             &Self::Forge => "Forge",
             &Self::Fabric => "Fabric",
+            &Self::Quilt => "Quilt",
         })
     }
 }
