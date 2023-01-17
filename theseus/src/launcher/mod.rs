@@ -82,7 +82,7 @@ pub async fn launch_minecraft(
 
     let client_path = state
         .directories
-        .version_dir(&version.id)
+        .version_dir(&version_info.id)
         .join(format!("{version_jar}.jar"));
 
     download::download_minecraft(&state, &version_info).await?;
