@@ -175,7 +175,7 @@ pub async fn launch_minecraft(
         .args(args::get_jvm_arguments(
             args.get(&d::minecraft::ArgumentType::Jvm)
                 .map(|x| x.as_slice()),
-            &state.directories.version_natives_dir(&version.id),
+            &state.directories.version_natives_dir(&version_info.id),
             &state.directories.libraries_dir(),
             &args::get_class_paths(
                 &state.directories.libraries_dir(),
@@ -192,7 +192,7 @@ pub async fn launch_minecraft(
                 .map(|x| x.as_slice()),
             version_info.minecraft_arguments.as_deref(),
             credentials,
-            &version.id,
+            &version_info.id,
             &version_info.asset_index.id,
             &instance_path,
             &state.directories.assets_dir(),
@@ -206,7 +206,7 @@ pub async fn launch_minecraft(
     command.spawn().map_err(|err| {
         crate::ErrorKind::LauncherError(format!(
             "Error running Minecraft (minecraft-{} @ {}): {err}",
-            &version.id,
+            &version_info.id,
             instance_path.display()
         ))
         .as_error()
