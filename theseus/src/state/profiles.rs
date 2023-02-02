@@ -237,12 +237,7 @@ impl Profiles {
         self.0.insert(
             profile
                 .path
-                .canonicalize()?
-                .to_str()
-                .ok_or(
-                    crate::ErrorKind::UTFError(profile.path.clone()).as_error(),
-                )?
-                .into(),
+                .canonicalize()?,
             Some(profile),
         );
         Ok(self)
