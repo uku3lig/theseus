@@ -12,7 +12,7 @@ use tokio::fs;
 const PROFILE_JSON_PATH: &str = "profile.json";
 const PROFILE_SUBTREE: &[u8] = b"profiles";
 
-pub struct Profiles(pub HashMap<PathBuf, Option<Profile>>);
+pub(crate) struct Profiles(pub HashMap<PathBuf, Option<Profile>>);
 
 // TODO: possibly add defaults to some of these values
 pub const CURRENT_FORMAT_VERSION: u32 = 1;
@@ -237,7 +237,12 @@ impl Profiles {
         self.0.insert(
             profile
                 .path
-                .canonicalize()?,
+                .canonicalize()?
+                .to_str()
+                .ok_or(
+                    crate::ErrorKind::UTFError(profile.path.clone()).as_error(),
+                )?
+                .into(),
             Some(profile),
         );
         Ok(self)

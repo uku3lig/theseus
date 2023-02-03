@@ -34,7 +34,7 @@ pub struct State {
     /// Launcher configuration
     pub settings: RwLock<Settings>,
     /// Launcher profile metadata
-    pub profiles: RwLock<Profiles>,
+    pub(crate) profiles: RwLock<Profiles>,
     /// Launcher user account info
     pub(crate) users: RwLock<Users>,
 }
