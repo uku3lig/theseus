@@ -1,7 +1,7 @@
 //! Logic for launching Minecraft
 use crate::state as st;
 use daedalus as d;
-use std::{path::Path, process::Stdio};
+use std::{path::{Path, absolute}, process::Stdio};
 use tokio::process::{Child, Command};
 
 mod args;
@@ -57,7 +57,7 @@ pub async fn launch_minecraft(
     credentials: &auth::Credentials,
 ) -> crate::Result<Child> {
     let state = st::State::get().await?;
-    let instance_path = instance_path.canonicalize()?;
+    let instance_path = absolute(instance_path)?;
 
     let version = state
         .metadata

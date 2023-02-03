@@ -5,7 +5,7 @@ use futures::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::{
     collections::HashMap,
-    path::{Path, PathBuf},
+    path::{Path, PathBuf, absolute},
 };
 use tokio::fs;
 
@@ -100,7 +100,7 @@ impl Profile {
         }
 
         Ok(Self {
-            path: path.canonicalize()?,
+            path: absolute(path)?,
             metadata: ProfileMetadata {
                 name,
                 icon: None,
@@ -235,9 +235,7 @@ impl Profiles {
     #[tracing::instrument(skip(self))]
     pub fn insert(&mut self, profile: Profile) -> crate::Result<&Self> {
         self.0.insert(
-            profile
-                .path
-                .canonicalize()?
+            absolute(&profile.path)?
                 .to_str()
                 .ok_or(
                     crate::ErrorKind::UTFError(profile.path.clone()).as_error(),
@@ -253,12 +251,12 @@ impl Profiles {
         &'a mut self,
         path: &'a Path,
     ) -> crate::Result<&Self> {
-        self.insert(Self::read_profile_from_dir(&path.canonicalize()?).await?)
+        self.insert(Self::read_profile_from_dir(&absolute(path)?).await?)
     }
 
     #[tracing::instrument(skip(self))]
     pub fn remove(&mut self, path: &Path) -> crate::Result<&Self> {
-        let path = PathBuf::from(path.canonicalize()?.to_str().unwrap());
+        let path = PathBuf::from(absolute(path)?.to_str().unwrap());
         self.0.remove(&path);
         Ok(self)
     }
