@@ -54,7 +54,7 @@ pub struct Credentials {
     pub refresh_token: String,
     #[bincode(with_serde)]
     pub expires: DateTime<Utc>,
-    _ctor_scope: std::marker::PhantomData<()>,
+    pub _ctor_scope: std::marker::PhantomData<()>,
 }
 
 // Implementation
